@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jogo da Forca</title>
+	<meta charset="utf-8">
+<style>
+	h1{
+    margin:0 auto;
+    font-family: Comic Sans MS, sans-serif, cursive;
+    font-size:60px;
+    color: #2E8B57
+	}
+	input{
+	padding:5px;
+    font-size:17px;
+    margin:5px;
+	}
+	.letra{
+		width: 30px;
+		font-size: 30px;
+		text-transform: uppercase;
+		text-align: center;
+		margin: 5px;
+	}
+	.letraJ{
+		width: 30px;
+		font-size: 30px;
+		text-transform: uppercase;
+		text-align: center;
+		margin: 5px;
+	}	
+	button, div{
+		font-size: 20px;	
+	}
+</style>
+<script>
+var biblioteca = ["sabonete","toalha","mesa","jornal","cadeira","xicara","papel","bola","vela","escola","futebol","telefone","caneta","caderno","aguia","rato","galinha"];
+var qtd=biblioteca.length-1;
+var pos=Math.round(Math.random()*qtd);
+var palavra=biblioteca[pos];
+var tam=palavra.length;
+var cxLetras=[];
+var acertos;
+var errosMax=6;
+var erros=0;
+var acertou=false;
+var jogando=false;
+var jog;
+
+function defineLetras(l){
+	var obj;
+	for(var i=0;i<15;i++){
+		obj=document.getElementById("letra"+i).value="";
+		obj=document.getElementById("letra"+i).style.display="none";
+	}
+	for(var i=0;i<l;i++){
+		obj=document.getElementById("letra"+i).style.display="inline-block";
+	}
+}
+
+function jogar(){
+	jog.focus();
+	if(jog.value==""){
+		alert("digite uma letra");
+	}else{
+		if(jogando){
+			var obj;
+			var letraTmp;
+			var letra;
+			var pesq;
+			letra=jog.value;
+			jog.value="";
+			acertou=false;
+			pesq=palavra.match(letra);
+			while(pesq!=null){
+				letraTmp=palavra.search(letra);
+				obj=document.getElementById("letra"+letraTmp).value=letra;
+				palavra=palavra.replace(letra,'0');
+				acertos++;
+				pesq=palavra.match(letra);
+				acertou=true;
+			}
+			if(!acertou){
+				document.getElementById("dvletrasdigitadas").innerHTML+=letra.toUpperCase() + " ";
+				erros++;
+				if(erros==1){
+					alert("sua cabeça foi parar na forca");
+				}else if(erros==2){
+					alert("seu corpo foi parar na forca");
+				}else if(erros==3){
+					alert("seu braco esquedo foi parar na forca");
+				}else if(erros==4){
+					alert("seu braco direito foi parar na forca");
+				}else if(erros==5){
+					alert("sua perna esquerda foi parar na forca");
+				}else if(erros==6){
+					alert("sua perna direita foi parar na forca");
+					alert("VOCE PERDEU");
+					alert("Tente novamnete: NOVA PALAVRA");
+				}
+				else{
+					jogando=false;
+				}
+			}
+			if(acertos==tam){
+				alert("VOCE GANHOU");
+				jogando=false;
+			}
+		}
+	}
+}
+
+function inicia(){
+	jogando=true;
+	jog=document.getElementById("letraJ");
+	jog.value="";
+	jog.focus();
+	acertos=0;
+	erros=0;
+	acertou=false;
+	document.getElementById("dvletrasdigitadas").innerHTML="Lestras Digitadas:";
+	pos=Math.round(Math.random()*qtd);
+	palavra=biblioteca[pos];
+	tam=palavra.length;
+	defineLetras(tam);
+}
+window.addEventListener("load",inicia);
+
+</script>
+</head>
+<body>
+<h1>Jogo da Forca</h1>
+</br>
+<div id="dvmenu" class="dvdisplay">
+	<button onclick="inicia()">NOVA PALAVRA</button>
+</div>
+
+<div id="dvpalavra" class="dvdisplay">
+	<input type="text" id="letra0" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra1" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra2" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra3" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra4" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra5" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra6" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra7" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra8" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra9" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra10" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra11" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra12" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra13" class="letra" maxlength="1" readonly="readonly">
+	<input type="text" id="letra14" class="letra" maxlength="1" readonly="readonly">
+</div>
+
+<div id="dvjogador" class="dvdisplay">
+	<div id="controlesJogador">
+		<input type="text" id="letraJ" class="letraJ" maxlength="1">
+		<button onclick="jogar()">Jogar</button>
+		<div id="dvmsg"></div><br>
+		<div id="dvletrasdigitadas">Letras Digitadas:</div>
+	</div>
+</div>
+</body>
+</html>
